@@ -1,7 +1,7 @@
 /* 
- * ltl_formula变体
- * 表达式中不含<->、->、[]、<>，且！只会出现在原子前
- * 增加tag标记
+* ltl_formula variant
+  * The expression does not contain <->, ->, [], <>, and! Will only appear before the atom
+  * Add tag mark
  * File:   aalta_formula.h
  * Author: yaoyinbo and Jianwen Li
  * Jianwen Li adds the implementation of LTLf
@@ -32,21 +32,21 @@ class aalta_formula
 private:
   typedef std::list<aalta_formula*> tag_t;
   ////////////
-  //成员变量//
+  //Member variables
   //////////////////////////////////////////////////
-  int _op; // 操作符
-  aalta_formula *_left; // 操作符左端公式
-  aalta_formula *_right; // 操作符右端公式
-  tag_t *_tag; // 标签，相对于Until的位置信息
-  size_t _hash; // hash值
-  int _length; //公式长度
-  aalta_formula *_unique; // 指向唯一指针标识
-  aalta_formula *_simp; // 指向化简后的公式指针
+  int _op; // Operator
+  aalta_formula *_left; // Operator left end formula
+  aalta_formula *_right; // Operator right-hand formula
+  tag_t *_tag; // Label, position information relative to Until
+  size_t _hash; // hash value
+  int _length; //Formula length
+  aalta_formula *_unique; // Point to unique pointer identifier
+  aalta_formula *_simp; //Pointer to the simplified formula
   //////////////////////////////////////////////////
 
 public:
 
-  /* af公式的hash函数 */
+  /* Hash function of af formula  */
   struct af_hash
   {
 
@@ -56,7 +56,7 @@ public:
     }
   };
 
-  /* af指针的hash函数 */
+  /* Hash function of af pointer  */
   struct af_prt_hash
   {
 
@@ -67,7 +67,7 @@ public:
     }
   };
 
-  /* af指针的hash函数 */
+  /* Hash function of af pointer */
   struct af_prt_hash2
   {
 
@@ -76,7 +76,7 @@ public:
       return af_prt->_hash;
     }
   };
-  /* af指针的相等函数 */
+  /* Equality function of af pointer  */
   struct af_prt_eq
   {
 
@@ -87,7 +87,7 @@ public:
   };
 private:
 
-  /* tag的hash函数 */
+  /*hash function of tag  */
   struct tag_prt_hash
   {
 
@@ -139,11 +139,11 @@ private:
   //静态成员变量//
   //////////////////////////////////////////////////
 private:
-  static std::vector<std::string> names; // 存储操作符的名称以及原子变量的名称
-  static hash_map<std::string, int> ids; // 名称和对应的位置映射
-  //static af_prt_map all_afs; // 所有aalta_formula实体和对应唯一指针的映射
+  static std::vector<std::string> names; // The name of the storage operator and the name of the atomic variable
+  static hash_map<std::string, int> ids; // Name and corresponding location mapping
+  //static af_prt_map all_afs; // The mapping of all aalta_formula entities and corresponding unique pointers
   static afp_set all_afs;
-  static tag_set all_tags; // 所有tag的集合
+  static tag_set all_tags; // Collection of all tags
   static aalta_formula *_TRUE;
   static aalta_formula *_FALSE;
   //////////////////////////////////////////////////
@@ -167,7 +167,7 @@ public:
   };
 private:
 
-  /* 位置类型，判断公式组成结构时用 */
+  /* Location type, used when determining the structure of the formula  */
   enum poskind
   {
     Left, Right, All
