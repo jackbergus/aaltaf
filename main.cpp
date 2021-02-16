@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 #include "include/formula/aalta_formula.h"
 #include "include/ltlfchecker.h"
 #include "include/carchecker.h"
 #include "include/solver.h"
+=======
+#include "formula/aalta_formula.h"
+#include "ltlfchecker.h"
+#include "carchecker.h"
+#include "solver.h"
+>>>>>>> e5a238ed506a0ce19d8db276cd00d7e2a354f31d
 #include <stdio.h>
 #include <string.h>
 
@@ -25,8 +32,9 @@ print_help ()
 void
 ltlf_sat (int argc, char** argv)
 {
-	bool verbose = false;
+	bool verbose = true;
 	bool evidence = true;
+	bool evidence = false;
 	int input_count = 0;
 	bool blsc = false;
 	bool print_weak_until_free = false;
