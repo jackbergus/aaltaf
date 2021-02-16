@@ -26,7 +26,7 @@ void
 ltlf_sat (int argc, char** argv)
 {
 	bool verbose = false;
-	bool evidence = false;
+	bool evidence = true;
 	int input_count = 0;
 	bool blsc = false;
 	bool print_weak_until_free = false;
@@ -114,6 +114,7 @@ ltlf_sat (int argc, char** argv)
 	CARChecker checker (af, verbose, evidence);
 	bool res = checker.check ();
 	printf ("%s\n", res ? "sat" : "unsat");
+	checker.print_frames();
 	if (evidence && res)
 		checker.print_evidence ();
   }
