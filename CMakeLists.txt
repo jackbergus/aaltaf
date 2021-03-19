@@ -18,13 +18,25 @@ include_directories(include)
 include_directories(submodules/ltlparser)
 
 bison_target(parser fl.ypp fl.tab.cpp)
-add_executable(ltlsolver ${BISON_MyParser_OUTPUTS} ${FLEX_MyScanner_OUTPUTS}
-        main.cpp
-        src/util/utility.cpp src/utility.cpp
-        src/formula/aalta_formula.cpp src/formula/olg_formula.cpp src/formula/olg_item.cpp
-        submodules/minisat/core/Solver.cc src/aaltasolver.cpp src/solver.cpp src/carsolver.cpp submodules/ltlparser/ltl_formula.c
-        src/ltlfchecker.cpp src/carchecker.cpp
-        src/evidence.cpp
-        submodules/ltlparser/trans.c)
 
-target_link_libraries(ltlsolver z)
+add_library(aaltaf OBJECT ${BISON_MyParser_OUTPUTS}
+                          ${FLEX_MyScanner_OUTPUTS}
+                          src/util/utility.cpp
+                          src/utility.cpp
+                          src/formula/aalta_formula.cpp
+                          src/formula/olg_formula.cpp
+                          src/formula/olg_item.cpp
+                          submodules/minisat/core/Solver.cc
+                          src/aaltasolver.cpp
+                          src/solver.cpp
+                          src/carsolver.cpp
+                          submodules/ltlparser/ltl_formula.c
+                          src/ltlfchecker.cpp
+                          src/carchecker.cpp
+                          src/evidence.cpp
+                          submodules/ltlparser/trans.c)
+
+add_executable(ltlsolver
+        main.cpp)
+
+target_link_libraries(ltlsolver z aaltaf)
