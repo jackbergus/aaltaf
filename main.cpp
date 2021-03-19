@@ -73,16 +73,16 @@ ltlf_sat (int argc, char** argv)
   //set tail id to be 1
   af = aalta_formula::TAIL ();  
   af = aalta_formula(in, true).unique();
-	if (print_weak_until_free)
+    af = af->nnf ();
+    af = af->add_tail ();
+    af = af->remove_wnext ();
+    af = af->simplify ();
+	/*if (print_weak_until_free)
 	{
 		cout << af->to_string () << endl;
 		return;
-	}
-  
-  af = af->nnf ();
-	af = af->add_tail ();
-  af = af->remove_wnext ();
-  af = af->simplify ();
+	}*/
+
   af = af->split_next ();
   
   
@@ -122,11 +122,29 @@ ltlf_sat (int argc, char** argv)
   aalta_formula::destroy();
 }
 
+double check_formula(const std::string& ltlf_string) {
+    aalta_formula* af;
+    //set tail id to be 1
+    af = aalta_formula::TAIL ();
+    af = aalta_formula(ltlf_string.c_str(), true).unique();
+    //af = af->nnf ();
+    af = af->add_tail ();
+    af = af->remove_wnext ();
+    //af = af->simplify ();
+    //af = af->split_next ();
+    CARChecker checker (af, false, true);
+    bool res = checker.check ();
+    //printf ("%s\n", res ? "sat" : "unsat");
+    return checker.get_inconsistency_measure(res);
+}
 
 int
 main (int argc, char** argv)
 {
-  ltlf_sat (argc, argv);
+    std::cout << CARChecker::check_formula("[](a) & (!([](a)))") << std::endl;
+    std::cout << CARChecker::check_formula("a & b") << std::endl;
+    std::cout << CARChecker::check_formula("a & (!a)") << std::endl;
+    aalta_formula::destroy();
   return 0;
   
 

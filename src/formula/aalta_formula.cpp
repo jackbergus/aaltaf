@@ -25,8 +25,8 @@ namespace aalta
 {
 
 ///////////////////////////////////////////
-// 开始静态部分
-/* 初始化静态变量 */
+// Start static part
+/* Initialize static variables  */
 std::vector<std::string> aalta_formula::names;
 hash_map<std::string, int> aalta_formula::ids;
 //aalta_formula::af_prt_map aalta_formula::all_afs;
@@ -60,7 +60,7 @@ aalta_formula::FALSE ()
 }
 
 /**
- * 获取符号对应名称或变量id对应的变量名
+ * Get the corresponding name of the symbol or the variable name corresponding to the variable id
  * @param index
  * @return 
  */
@@ -71,7 +71,7 @@ aalta_formula::get_name (int index)
 }
 
 /**
- * 销毁静态变量, 释放资源
+ * Destroy static variables, release resources
  */
 void
 aalta_formula::destroy ()
@@ -149,7 +149,7 @@ aalta_formula::mutex (aalta_formula *af, int_set& pos, int_set& neg)
 bool
 aalta_formula::is_conflict (aalta_formula *af1, aalta_formula *af2)
 {
-  //@ TODO: 好想重构化简代码啊啊啊啊啊，可是好难重构啊啊啊啊啊啊   %>_<%
+  //@ TODO: I really want to refactor and simplify the code, but it's so hard to refactor %>_<%
   std::list<aalta_formula *> *af_list = NULL;
   switch (af1->_op)
     {
@@ -324,7 +324,7 @@ aalta_formula::simplify_or (aalta_formula *l, aalta_formula *r)
   l->split (Or, af_list, true);
   r->split (Or, af_list, true);
 
-  // 增加一个1是为了sort用
+  // Adding a 1 is for sort
   aalta_formula **afp = new aalta_formula*[af_list.size () + 1];
   if (afp == NULL)
     {
@@ -490,7 +490,7 @@ aalta_formula::simplify_and (aalta_formula *l, aalta_formula *r)
 aalta_formula *
 aalta_formula::simplify_and_weak (aalta_formula *l, aalta_formula *r)
 {
-  //@ TODO: 2、能否去除list的使用？
+  //@ TODO: 2. Can the use of list be removed?
   aalta_formula *l_next, *r_next;
   aalta_formula *l_now, *r_now;
   for (l_next = l->simplify (); l_next != NULL; l_next = l_next->af_next (And))
@@ -690,7 +690,7 @@ aalta_formula::simplify_release (aalta_formula *l, aalta_formula *r)
     simp = aalta_formula (Next, NULL, aalta_formula (Release, l_s->_right, r_s->_right).simplify ()).simplify ();
   else if ((l_s->_op == Not && l_s->_right == r_s)
            || (r_s->_op == Not && r_s->_right == l_s)) // !a R a = False R a
-    //@ TODO: 这里只处理了原子，是否扩展为普通公式？ AND 似乎最后没必要再simplify
+    //@ TODO: Only atoms are dealt with here. Does it extend to ordinary formulas? AND seems unnecessary to simplify in the end
     simp = aalta_formula (Release, aalta_formula::FALSE (), r_s).simplify ();
   else
     simp = aalta_formula (Release, l_s, r_s).unique ();
@@ -1208,9 +1208,9 @@ aalta_formula::classify (tag_t *tag)
 }
 
 /**
- * 简化并规划公式，简化的公式不包含tag信息
- * 使得And和Or的结构为链状结构而非树结构
- * 只修改this中的_simp值
+* Simplify and plan the formula, the simplified formula does not contain tag information
+  * Make the structure of And and Or a chain structure instead of a tree structure
+  * Only modify the _simp value in this
  * @return 
  */
 aalta_formula *
@@ -1232,10 +1232,10 @@ aalta_formula::simplify ()
     case Until: // U
       _simp = aalta_formula::simplify_until (_left, _right);
       break;
-    case Release: // R﻿
+    case Release: // R
       _simp = aalta_formula::simplify_release (_left, _right);
       break;
-    case Not: // ! 只会出现在原子前，因此可不做处理
+    case Not: //! Will only appear before the atom, so no processing is needed
       //break;
     default: //atom
       _simp = unique ();
@@ -1277,7 +1277,7 @@ aalta_formula::split (int op, std::list<aalta_formula *>& af_list, bool to_simpl
 }
 
 /**
- * 判断当前公式的op子公式是否与集合中的元素互斥, 即是否存在 a 和 !a
+ * Determine whether the op sub-formula of the current formula is mutually exclusive with the elements in the set, that is, whether there are a and !a
  * @param op
  * @param pos
  * @param neg
@@ -1312,11 +1312,11 @@ aalta_formula::contain (poskind pos, int op, aalta_formula *af)
 {
   switch (pos)
     {
-    case Left: // 公式操作符为op，且左边节点公式为af
+    case Left: // The formula operator is op, and the left node formula is af
       return _op == op && _left->unique () == af->unique ();
-    case Right: // 公式操作符为op，且右边节点公式为af
+    case Right: // The formula operator is op, and the right node formula is af
       return _op == op && _right->unique () == af->unique ();
-    case All: // 或和且操作符，判断里面是否存在一个af
+    case All: // Or and operator, to determine whether there is an af in it
       if (_op != op) return this->unique () == af->unique ();
       return (_left == NULL ? false : _left->contain (All, op, af)) ||
               (_right == NULL ? false : _right->contain (All, op, af));
@@ -1402,7 +1402,7 @@ aalta_formula::get_length ()
 }
 
 /**
- * 介于aalta_formula中对于与或的存储，若为与或，返回左节点, 为当前节点
+ * The storage for and or between in aalta_formula, if it is and or, return the left node, which is the current node
  * @param op
  * @return 
  */
@@ -1415,7 +1415,7 @@ aalta_formula::af_now (int op)
 }
 
 /**
- * 介于aalta_formula中对于与或的存储，若为与或，返回右节点, 为下一个节点
+ * The storage for AND or between in aalta_formula, if it is AND or, return the right node, which is the next node
  * @param op
  * @return 
  */

@@ -46,6 +46,8 @@ private:
 
 public:
 
+
+
   /* Hash function of af formula  */
   struct af_hash
   {

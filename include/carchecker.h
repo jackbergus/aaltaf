@@ -43,7 +43,9 @@ namespace aalta
 	class CARChecker : public LTLfChecker 
 	{
 	public:
-		
+
+        static double check_formula(const std::string& ltlf_string);
+
 		CARChecker (aalta_formula *f, bool verbose = false, bool evidence = false) : LTLfChecker (f, verbose, evidence), inv_solver_ (NULL)
 		{	
 			//inv_solver_ = new InvSolver (to_check_->id(), verbose_);
@@ -60,6 +62,8 @@ namespace aalta
  		void print_solver_clauses ();
  		
  		void print_frames ();
+
+ 		double get_inconsistency_measure(bool isSat) const;
 		
 	private:
 		//members

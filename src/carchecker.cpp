@@ -371,7 +371,37 @@
  			cout << endl;
  		}
  	}
- 	
- 	
- 	
+
+     double CARChecker::get_inconsistency_measure(bool isSat) const {
+         if (isSat) {
+             return 0.0;
+         } else {
+             double inc = 1.0;
+             for (const auto& frame: frames_) {
+                 double inc_frame = 0.0;
+                 for (const auto& vector : frame)
+                     inc_frame += 1.0 / ((double )vector.size());
+                 inc += (inc_frame);
+             }
+             return inc;
+         }
+     }
+
+     double CARChecker::check_formula(const string &ltlf_string) {
+         aalta_formula* af;
+         //set tail id to be 1
+         af = aalta_formula::TAIL ();
+         af = aalta_formula(ltlf_string.c_str(), true).unique();
+         //af = af->nnf ();
+         af = af->add_tail ();
+         af = af->remove_wnext ();
+         //af = af->simplify ();
+         //af = af->split_next ();
+         CARChecker checker (af, false, true);
+         bool res = checker.check ();
+         //printf ("%s\n", res ? "sat" : "unsat");
+         return checker.get_inconsistency_measure(res);
+     }
+
+
  }
