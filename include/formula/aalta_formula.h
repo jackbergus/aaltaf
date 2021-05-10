@@ -24,6 +24,13 @@
 
 #define MAX_CL 500000
 
+#ifdef TRUE
+#undef TRUE
+#endif
+#ifdef FALSE
+#undef FALSE
+#endif
+
 namespace aalta
 {
 
