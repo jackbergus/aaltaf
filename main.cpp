@@ -5,6 +5,7 @@
 #include "solver.h"
 #include <stdio.h>
 #include <string.h>
+#include <utility.h>
 
 
 #define MAXN 100000
@@ -141,10 +142,10 @@ double check_formula(const std::string& ltlf_string) {
 int
 main (int argc, char** argv)
 {
-    std::cout << CARChecker::check_formula("[](a) & (!([](a)))") << std::endl;
-    std::cout << CARChecker::check_formula("a & b") << std::endl;
-    std::cout << CARChecker::check_formula("a & (!a)") << std::endl;
+    ltl_formula* f = AALTAF_AND(create_var("a"), AALTAF_NOT(create_var("a")));
+    std::cout << CARChecker::check_formula(f) << std::endl;
     aalta_formula::destroy();
+    destroy_formula(f);
   return 0;
   
 

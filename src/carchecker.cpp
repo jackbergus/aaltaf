@@ -403,5 +403,20 @@
          return checker.get_inconsistency_measure(res);
      }
 
+     double CARChecker::check_formula(ltl_formula* f) {
+         aalta_formula* af;
+         //set tail id to be 1
+         af = new aalta_formula (f);
+         //af = af->nnf ();
+         af = af->add_tail ();
+         af = af->remove_wnext ();
+         af = af->simplify ();
+         //af = af->split_next ();
+         CARChecker checker (af, false, true);
+         bool res = checker.check ();
+         //printf ("%s\n", res ? "sat" : "unsat");
+         return checker.get_inconsistency_measure(res);
+     }
+
 
  }

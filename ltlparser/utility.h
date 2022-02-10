@@ -48,4 +48,5 @@ std::set<std::string> get_alphabet (ltl_formula*);
 std::string string_of (int);
 
 
+
 #endif

@@ -45,6 +45,7 @@ namespace aalta
 	public:
 
         static double check_formula(const std::string& ltlf_string);
+        static double check_formula(ltl_formula* aaltaf);
 
 		CARChecker (aalta_formula *f, bool verbose = false, bool evidence = false) : LTLfChecker (f, verbose, evidence), inv_solver_ (NULL)
 		{	

@@ -855,6 +855,14 @@ aalta_formula::aalta_formula (int op, aalta_formula *left, aalta_formula *right,
 
 aalta_formula::aalta_formula (const char *input, bool is_ltlf)
 {
+    assert(strcmp(input,"Tail") == 0);
+    _left = nullptr;
+    _right = nullptr;
+    ltl_formula * formula = create_var("Tail");
+    build (formula, false, is_ltlf);
+    destroy_formula (formula);
+    clc_hash ();
+#if 0
   init ();
   ltl_formula *formula = getAST (input);
   if(is_ltlf)
@@ -863,6 +871,7 @@ aalta_formula::aalta_formula (const char *input, bool is_ltlf)
     build (formula);
   destroy_formula (formula);
   clc_hash ();
+#endif
   /*
   if(!is_ltlf)
     *this = *simplify ();

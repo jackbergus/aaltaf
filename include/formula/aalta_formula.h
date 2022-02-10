@@ -284,7 +284,9 @@ public:
   aalta_formula* ofr();        //obligation formula for LTLf release formulas.
   aalta_formula* ofg();  //obligation formula for LTLf global formula
   aalta_formula* cf();        //current formula 
-  void buildLTLf(const ltl_formula *formula, bool is_not = false);
+  void buildLTLf(const ltl_formula *formula, bool is_not = false) {
+      build(formula, is_not, true);
+  }
   
   bool is_global();  //check whether the formula is a global one.
   bool is_wnext_free(); //check whether the formula is weak next free.
