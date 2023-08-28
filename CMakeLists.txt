@@ -19,9 +19,7 @@ include_directories(submodules/ltlparser)
 
 #bison_target(parser fl.ypp fl.tab.cpp)
 
-add_library(aaltaf OBJECT #${BISON_MyParser_OUTPUTS}
-                          #${FLEX_MyScanner_OUTPUTS}
-                          src/util/utility.cpp
+add_library(aaltaf OBJECT src/util/utility.cpp
                           src/utility.cpp
                           src/formula/aalta_formula.cpp
                           src/formula/olg_formula.cpp
@@ -30,11 +28,10 @@ add_library(aaltaf OBJECT #${BISON_MyParser_OUTPUTS}
                           src/aaltasolver.cpp
                           src/solver.cpp
                           src/carsolver.cpp
-                          submodules/ltlparser/ltl_formula.c
+                          ltlparser/ltl_formula.c
                           src/ltlfchecker.cpp
                           src/carchecker.cpp
                           src/evidence.cpp
-                          #submodules/ltlparser/trans.c
         )
 
 add_executable(ltlsolver
