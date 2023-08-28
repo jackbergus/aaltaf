@@ -123,8 +123,11 @@ ltlf_sat (int argc, char** argv)
   aalta_formula::destroy();
 }
 
+#include <chrono>
+
 double check_formula(const std::string& ltlf_string) {
     aalta_formula* af;
+
     //set tail id to be 1
     af = aalta_formula::TAIL ();
     af = aalta_formula(ltlf_string.c_str(), true).unique();
@@ -133,20 +136,23 @@ double check_formula(const std::string& ltlf_string) {
     af = af->remove_wnext ();
     //af = af->simplify ();
     //af = af->split_next ();
+    auto start = std::chrono::system_clock::now();
     CARChecker checker (af, false, true);
     bool res = checker.check ();
+    auto end = std::chrono::system_clock::now();
+    return std::chrono::duration<double, std::milli>(end - start).count();
     //printf ("%s\n", res ? "sat" : "unsat");
-    return checker.get_inconsistency_measure(res);
+//    return checker.get_inconsistency_measure(res);
 }
 
-int
-main (int argc, char** argv)
-{
-    ltl_formula* f = AALTAF_AND(create_var("a"), AALTAF_NOT(create_var("a")));
-    std::cout << CARChecker::check_formula(f) << std::endl;
-    aalta_formula::destroy();
-    destroy_formula(f);
-  return 0;
-  
+#include <fstream>
+#include <sstream>
 
+int
+main (int argc, char** argv){
+    std::ifstream t(argv[1]);
+    std::stringstream buffer;
+    buffer << t.rdbuf();
+    std::cout << check_formula(buffer.str()) << std::endl;
+  return 0;
 }
